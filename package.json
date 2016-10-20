@@ -1,0 +1,29 @@
+{
+  "name": "voting-app",
+  "version": "1.0.0",
+  "description": "### The Full Stack Voting APP",
+  "engines": {
+    "node": "5.9.1"
+  },
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stanleyyylau/voting-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stanleyyylau/voting-app/issues"
+  },
+  "homepage": "https://github.com/stanleyyylau/voting-app#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongoose": "^4.6.4",
+    "passport": "^0.3.2",
+    "passport-twitter": "^1.0.4"
+  }
+}
