@@ -16,17 +16,16 @@ html(lang='en')
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
             li.active
-              a(href='#') Home
-            // <li><a href="#">Link</a></li>
+              a(href='/') Home
           ul.nav.navbar-nav.navbar-right
             if name
               li
                 a(href=`/${name}`) Hello #{name}
             else
               li
-                a(href='#') Sign up
+                a(href='/signup') Sign up
               li
-                a(href='#') Login
+                a(href='/login') Login
         // /.navbar-collapse
       // /.container-fluid
     // Hero section
@@ -36,12 +35,12 @@ html(lang='en')
         p Create vote, Share link, Get result, Suvey has never been easier.
         unless name
           p
-            a.btn.btn-primary.btn-lg(href='#', role='button') Sign Up
+            a.btn.btn-primary.btn-lg(href='/signup', role='button') Sign Up
         if name
           p
-            a.btn.btn-primary.btn-lg(href='#', role='button') Net Poll
-            a.btn.btn-primary.btn-lg(href='#', role='button') My Polls
-    unless name
+            a.btn.btn-primary.btn-lg(href=`${name}`, role='button') Net Poll
+            a.btn.btn-primary.btn-lg(href=`${name}/all`, role='button') My Polls
+    if showFeature
       .container.text-center
         .row
           .col-md-4
@@ -88,8 +87,58 @@ html(lang='en')
             a.btn.btn-warning.pull-right Delete
           li.list-group-item
             a(href='#') Vestibulum at ero
-            a.btn.btn-warning.pull-right Delete              
+            a.btn.btn-warning.pull-right Delete
 
+    if signup
+      .container
+        form
+          .form-group
+            label(for='email') Email address
+            input#email.form-control(type='email', placeholder='Email')
+          .form-group
+            label(for='exampleInputPassword1') Password
+            input#password.form-control(type='password', placeholder='Password')
+          button.btn.btn-primary(type='submit') Sign me up !
+    if login
+      .container
+        form
+          .form-group
+            label(for='email') Email address
+            input#email.form-control(type='email', placeholder='Email')
+          .form-group
+            label(for='exampleInputPassword1') Password
+            input#password.form-control(type='password', placeholder='Password')
+          button.btn.btn-primary(type='submit') Login
+    if voteId
+      .container.text-center
+        .row
+          .col-md-4
+            h2 What is your favorite brand
+            p By Stanley
+          .col-md-4.text-left
+            .radio.form-control
+              label
+                input#optionsRadios1(type='radio', name='optionsRadios', value='option1', checked='')
+                |               Apple
+            .radio.form-control
+              label
+                input#optionsRadios2(type='radio', name='optionsRadios', value='option2')
+                |               Google
+            a.btn.btn-primary(href='#') Vote
+          .col-md-4
+            p
+              | Not satisfy with existing options?
+            a.btn.btn-primary(href='#') Create your own
+    if showResult
+      .container.text-center
+        .row.text-center
+          h2 show vote result here
+          canvas#canvas(width='400', height='500')
+
+
+    if login
+      script.
+        var a = "this is login page"
     // jQuery (necessary for Bootstrap's JavaScript plugins)
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
     // Include all compiled plugins (below), or include individual files as needed
