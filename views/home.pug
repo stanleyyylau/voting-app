@@ -1,0 +1,145 @@
+doctype html
+html(lang='en')
+  include ./components/head.pug
+  body
+    nav.navbar.navbar-default
+      .container
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') Voting Plus
+        // Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href='/') Home
+          ul.nav.navbar-nav.navbar-right
+            if name
+              li
+                a(href=`/${name}`) Hello #{name}
+            else
+              li
+                a(href='/signup') Sign up
+              li
+                a(href='/login') Login
+        // /.navbar-collapse
+      // /.container-fluid
+    // Hero section
+    .jumbotron.hero
+      .container.text-center
+        h1.app-title Voting Plus
+        p Create vote, Share link, Get result, Suvey has never been easier.
+        unless name
+          p
+            a.btn.btn-primary.btn-lg(href='/signup', role='button') Sign Up
+        if name
+          p
+            a.btn.btn-primary.btn-lg(href=`${name}`, role='button') Net Poll
+            a.btn.btn-primary.btn-lg(href=`${name}/all`, role='button') My Polls
+    if showFeature
+      .container.text-center
+        .row
+          .col-md-4
+            h3 Why do we use it?
+            p
+              | It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters
+          .col-md-4
+            h3 Where does it come from?
+            p
+              | Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor
+          .col-md-4
+            h3 Where can I get some?
+            p
+              | There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+    if newPoll
+      .container.text-center.new-poll-container
+        h2 New Poll
+        form
+          .form-group
+            label(for='pollName') Name Your Poll
+            input#pollName.form-control(type='email', placeholder='What is your favorite brand?')
+          .form-group.options
+            p Options
+            input.form-control(type='text', placeholder='Apple')
+            input.form-control(type='text', placeholder='Google')
+          .form-group
+            button#J_moreOptions.btn.btn-default(type='submit') More Options
+          .form-group
+            button#J_submit.btn.btn-primary(type='submit') Submit
+    if allPolls
+      .container.new-poll-container
+        ul.list-group
+          li.list-group-item
+            a(href='#') Cras justo odio
+            a.btn.btn-warning.pull-right Delete
+          li.list-group-item
+            a(href='#') Dapibus ac facilisis in
+            a.btn.btn-warning.pull-right Delete
+          li.list-group-item
+            a(href='#') Morbi leo risus
+            a.btn.btn-warning.pull-right Delete
+          li.list-group-item
+            a(href='#') Porta ac consectetur ac
+            a.btn.btn-warning.pull-right Delete
+          li.list-group-item
+            a(href='#') Vestibulum at ero
+            a.btn.btn-warning.pull-right Delete
+
+    if signup
+      .container
+        form
+          .form-group
+            label(for='email') Email address
+            input#email.form-control(type='email', placeholder='Email')
+          .form-group
+            label(for='exampleInputPassword1') Password
+            input#password.form-control(type='password', placeholder='Password')
+          button.btn.btn-primary(type='submit') Sign me up !
+    if login
+      .container
+        form
+          .form-group
+            label(for='email') Email address
+            input#email.form-control(type='email', placeholder='Email')
+          .form-group
+            label(for='exampleInputPassword1') Password
+            input#password.form-control(type='password', placeholder='Password')
+          button.btn.btn-primary(type='submit') Login
+    if voteId
+      .container.text-center
+        .row
+          .col-md-4
+            h2 What is your favorite brand
+            p By Stanley
+          .col-md-4.text-left
+            .radio.form-control
+              label
+                input#optionsRadios1(type='radio', name='optionsRadios', value='option1', checked='')
+                |               Apple
+            .radio.form-control
+              label
+                input#optionsRadios2(type='radio', name='optionsRadios', value='option2')
+                |               Google
+            a.btn.btn-primary(href='#') Vote
+          .col-md-4
+            p
+              | Not satisfy with existing options?
+            a.btn.btn-primary(href='#') Create your own
+    if showResult
+      .container.text-center
+        .row.text-center
+          h2 show vote result here
+          canvas#canvas(width='400', height='500')
+
+
+    if login
+      script.
+        var a = "this is login page"
+    // jQuery (necessary for Bootstrap's JavaScript plugins)
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    // Include all compiled plugins (below), or include individual files as needed
+    script(src='../js/bootstrap.min.js')
