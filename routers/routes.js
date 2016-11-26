@@ -31,7 +31,7 @@ router.get('/', function(req, res){
 
 router.get('/signup', function(req, res){
   var name = req.params.name;
-  res.render('home', {
+  res.render('account', {
     pretty: true,
     name,
     signup: true,
@@ -39,53 +39,76 @@ router.get('/signup', function(req, res){
   });
 })
 
-router.post('/signup', function(req, res){
-  console.log(req.body.email);
-  console.log(req.body.password);
-  var user = new User({
-    username: req.body.email,
-    password: req.body.password
-  })
 
-  user.save().then((doc) => {
-    console.log('done!!!saveing to DB')
-    console.log(doc);
-    res.send(doc);
-  }, (e) => {
-    res.status(400).send(e);
+router.post("/signup", function(req, res, next) {
+
+  var username = req.body.email;
+  var password = req.body.password;
+
+  User.findOne({ username: username }, function(err, user) {
+
+    if (err) { return next(err); }
+    if (user) {
+      req.flash("error", "User already exists");
+      return res.redirect("/signup");
+    }
+
+    var newUser = new User({
+      username: username,
+      password: password
+    });
+    newUser.save(next);
+
   });
-
-})
+}, passport.authenticate("login", {
+  successRedirect: "/",
+  failureRedirect: "/signup",
+  failureFlash: true
+}));
 
 router.get('/login', function(req, res){
-  var name = req.params.name;
+    res.render('account', {
+        pretty: true,
+        login: true,
+        title: 'Login to crate a vote'
+    });
+})
+
+router.post("/login", passport.authenticate("login", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true
+}));
+
+router.get('/new', ensureAuthenticated, function(req, res) {
   res.render('home', {
     pretty: true,
-    name,
-    login: true,
-    title: 'Login to crate a vote'
-  });
+    name: true,
+    newPoll: true,
+    title: 'Add new poll'
+  })
 })
 
-router.get('/:name', function(req, res){
-  // var name = req.params.name;
-  // res.render('home', {
-  //   pretty: true,
-  //   name,
-  //   newPoll: true,
-  //   title: 'Add new poll'
-  // });
-})
 
-router.get('/:name/all', function(req, res){
-  // var name = req.params.name;
-  // res.render('home', {
-  //   pretty: true,
-  //   name,
-  //   allPolls: true,
-  //   title: 'All your polls'
-  // })
-})
+// router.get('/:name', function(req, res){
+//   var name = req.params.name;
+//   res.render('home', {
+//     pretty: true,
+//     name,
+//     newPoll: true,
+//     title: 'Add new poll'
+//   // });
+// })
+
+// router.get('/:name/all', function(req, res){
+//   // var name = req.params.name;
+//   // res.render('home', {
+//   //   pretty: true,
+//   //   name,
+//   //   allPolls: true,
+//   //   title: 'All your polls'
+//   // })
+// })
 
 router.get('/:name/:vote', function(req, res){
   // var name = req.params.name;

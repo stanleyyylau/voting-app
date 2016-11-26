@@ -18,9 +18,9 @@ html(lang='en')
             li.active
               a(href='/') Home
           ul.nav.navbar-nav.navbar-right
-            if name
+            if currentUser
               li
-                a(href=`/${name}`) Hello #{name}
+                a(href=`/${currentUser._id}`) Hello #{currentUser.username}
             else
               li
                 a(href='/signup') Sign up
@@ -33,14 +33,14 @@ html(lang='en')
       .container.text-center
         h1.app-title Voting Plus
         p Create vote, Share link, Get result, Suvey has never been easier.
-        unless name
+        unless currentUser
           p
             a.btn.btn-primary.btn-lg(href='/signup', role='button') Sign Up
-        if name
+        if currentUser
           p
-            a.btn.btn-primary.btn-lg(href=`${name}`, role='button') Net Poll
-            a.btn.btn-primary.btn-lg(href=`${name}/all`, role='button') My Polls
-    if showFeature
+            a.btn.btn-primary.btn-lg(href="/new", role='button') Net Poll
+            a.btn.btn-primary.btn-lg(href="/all", role='button') My Polls
+    unless currentUser
       .container.text-center
         .row
           .col-md-4
@@ -55,7 +55,7 @@ html(lang='en')
             h3 Where can I get some?
             p
               | There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
-    if newPoll
+    if currentUser
       .container.text-center.new-poll-container
         h2 New Poll
         form
@@ -91,7 +91,7 @@ html(lang='en')
 
     if signup
       .container
-        form
+        form(action="/signup" method="post")
           .form-group
             label(for='email') Email address
             input#email.form-control(type='email', placeholder='Email', name='email')
@@ -138,9 +138,9 @@ html(lang='en')
 
     if login
       script.
-        var a = "this is login page"
+        var a = "this is login page";
     // jQuery (necessary for Bootstrap's JavaScript plugins)
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script(src='../js/jquery-1.10.1.min.js')
     // Include all compiled plugins (below), or include individual files as needed
     script(src='../js/bootstrap.min.js')
     if signup
