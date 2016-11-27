@@ -13,7 +13,8 @@ var Poll = mongoose.model('Poll', {
       trim: true
     },
     votes: {
-      type: Number
+      type: Number,
+      default: 0
     }
   }],
   _creator: {

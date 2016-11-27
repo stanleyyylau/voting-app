@@ -202,6 +202,26 @@ router.post('/newoption', function(req, res){
   })
 })
 
+router.post('/vote', function(req, res){
+  // to do, check db and increment the vote by one
+  var pollId = req.body.pollId;
+  var option = req.body.option;
+  Poll.findOneAndUpdate({ _id: pollId, "options.option": option}, {$inc: {"options.$.votes" : 1}})
+  .then((doc) => {
+    console.log(doc);
+    return Poll.findOne({_id: doc._id})
+  })
+      .then((poll) => {
+        res.json({
+          title: poll.title,
+          options: poll.options
+        })
+      })
+  .catch( (e) => {
+    console.log(e);
+  });
+})
+
 router.get('/test', function(req, res){
     res.render('home', {
       pretty: true,

@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function(req, res){
-    $("#J_createOption").on("click", function(req, res){
+    $("#J_createOption").on("click", function(e){
         if(!isLogIn){
             alert("You have to login to create your own custom option")
         }else{
@@ -29,6 +29,32 @@ $(document).ready(function(req, res){
                     });
                 }
             })
+        }
+    })
+
+    // todo: add J_vote to poll_detail.pug template
+    $("#J_vote").on("click", function(e){
+        if($('input:checked').length === 0){
+            alert("pls select an option!!!");
+        }else{
+            // get value and send to server
+            var pollId = $(this).closest(".col-md-4").data("vote-id");
+            var option = $('input:checked').val();
+            // make ajax call now
+            $.ajax({
+                type: "POST",
+                url: "/vote",
+                dataType: 'json',
+                data: {
+                    pollId: pollId,
+                    option: option
+                },
+                success: function(data){
+                    console.log(data);
+                    if (typeof data.redirect == 'string')
+                        window.location.replace(window.location.protocol + "//" + window.location.host + data.redirect);
+                }
+            });
         }
     })
 })
