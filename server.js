@@ -20,6 +20,7 @@ var port = process.env.PORT || 5000;
 app.set('view engine', 'pug');
 app.use(express.static('static'));
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 

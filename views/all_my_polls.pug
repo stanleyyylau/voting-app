@@ -1,0 +1,112 @@
+//
+   Created by Stanley on 11/27/16.
+
+doctype html
+html(lang='en')
+    include ./components/head.pug
+    body
+        nav.navbar.navbar-default
+            .container
+                // Brand and toggle get grouped for better mobile display
+                .navbar-header
+                    button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.navbar-brand(href='/') Voting Plus
+                // Collect the nav links, forms, and other content for toggling
+                #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li.active
+                            a(href='/') Home
+                        li
+                            a(href='/allpolls') See All Polls
+                    ul.nav.navbar-nav.navbar-right
+                        if currentUser
+                            li
+                                a(href=`/${currentUser._id}`) Hello #{currentUser.username}
+                        else
+                            li
+                                a(href='/signup') Sign up
+                            li
+                                a(href='/login') Login
+                // /.navbar-collapse
+            // /.container-fluid
+        // Hero section
+        .jumbotron.hero
+            .container.text-center
+                h1.app-title Voting Plus
+                p Create vote, Share link, Get result, Suvey has never been easier.
+                unless currentUser
+                    p
+                        a.btn.btn-primary.btn-lg(href='/signup', role='button') Sign Up
+                if currentUser
+                    p
+                        a.btn.btn-primary.btn-lg(href="/new", role='button') Net Poll
+                        a.btn.btn-primary.btn-lg(href="/all", role='button') My Polls
+
+        if allPolls
+            .container.new-poll-container
+                ul.list-group
+                    each val in polls
+                        li.list-group-item(data-id=`${val._id}`)
+                            a(href=`/poll/${val._id}`)= val.title
+                            a.btn.btn-warning.pull-right Delete
+
+        if signup
+            .container
+                form(action="/signup" method="post")
+                    .form-group
+                        label(for='email') Email address
+                        input#email.form-control(type='email', placeholder='Email', name='email')
+                    .form-group
+                        label(for='exampleInputPassword1') Password
+                        input#password.form-control(type='password', placeholder='Password', name='password')
+                    button.btn.btn-primary(type='submit') Sign me up !
+        if login
+            .container
+                form
+                    .form-group
+                        label(for='email') Email address
+                        input#email.form-control(type='email', placeholder='Email')
+                    .form-group
+                        label(for='exampleInputPassword1') Password
+                        input#password.form-control(type='password', placeholder='Password')
+                    button.btn.btn-primary(type='submit') Login
+        if voteId
+            .container.text-center
+                .row
+                    .col-md-4
+                        h2 What is your favorite brand
+                        p By Stanley
+                    .col-md-4.text-left
+                        .radio.form-control
+                            label
+                                input#optionsRadios1(type='radio', name='optionsRadios', value='option1', checked='')
+                                |               Apple
+                        .radio.form-control
+                            label
+                                input#optionsRadios2(type='radio', name='optionsRadios', value='option2')
+                                |               Google
+                        a.btn.btn-primary(href='#') Vote
+                    .col-md-4
+                        p
+                            | Not satisfy with existing options?
+                        a.btn.btn-primary(href='#') Create your own
+        if showResult
+            .container.text-center
+                .row.text-center
+                    h2 show vote result here
+                    canvas#canvas(width='400', height='500')
+
+
+        if login
+            script.
+                var a = "this is login page";
+        // jQuery (necessary for Bootstrap's JavaScript plugins)
+        script(src='../js/jquery-1.10.1.min.js')
+        // Include all compiled plugins (below), or include individual files as needed
+        script(src='../js/bootstrap.min.js')
+        if currentUser
+            script(src='/js/allPolls.js')
