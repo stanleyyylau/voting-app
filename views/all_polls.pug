@@ -1,5 +1,5 @@
 //
-   Created by Stanley on 11/26/16.
+   Created by Stanley on 11/27/16.
 
 doctype html
 html(lang='en')
@@ -18,9 +18,9 @@ html(lang='en')
                 // Collect the nav links, forms, and other content for toggling
                 #bs-example-navbar-collapse-1.collapse.navbar-collapse
                     ul.nav.navbar-nav
-                        li.active
-                            a(href='/') Home
                         li
+                            a(href='/') Home
+                        li.active
                             a(href='/allpolls') See All Polls
                     ul.nav.navbar-nav.navbar-right
                         if currentUser
@@ -38,30 +38,21 @@ html(lang='en')
             .container.text-center
                 h1.app-title Voting Plus
                 p Create vote, Share link, Get result, Suvey has never been easier.
-                if errors
-                    p= errors
-                if infos
-                    p= infos
-        if signup
-            .container
-                form(action="/signup" method="post")
-                    .form-group
-                        label(for='email') Email address
-                        input#email.form-control(type='email', placeholder='Email', name='email')
-                    .form-group
-                        label(for='exampleInputPassword1') Password
-                        input#password.form-control(type='password', placeholder='Password', name='password')
-                    button.btn.btn-primary(type='submit') Sign me up !
-        if login
-            .container
-                form(action="/login" method="post")
-                    .form-group
-                        label(for='email') Email address
-                        input#email.form-control(type='email', placeholder='Email', name='email')
-                    .form-group
-                        label(for='exampleInputPassword1') Password
-                        input#password.form-control(type='password', placeholder='Password', name='password')
-                    button.btn.btn-primary(type='submit') Login
+                unless currentUser
+                    p
+                        a.btn.btn-primary.btn-lg(href='/signup', role='button') Sign Up
+                if currentUser
+                    p
+                        a.btn.btn-primary.btn-lg(href="/new", role='button') Net Poll
+                        a.btn.btn-primary.btn-lg(href="/all", role='button') My Polls
+
+        if polls
+            .container.new-poll-container
+                ul.list-group
+                    each val in polls
+                        li.list-group-item(data-id=`${val._id}`)
+                            a(href=`/poll/${val._id}`)= val.title
+
 
         if login
             script.
@@ -70,5 +61,5 @@ html(lang='en')
         script(src='../js/jquery-1.10.1.min.js')
         // Include all compiled plugins (below), or include individual files as needed
         script(src='../js/bootstrap.min.js')
-        if signup
-            script(src='/js/signup.js')
+        if currentUser
+            script(src='/js/allPolls.js')

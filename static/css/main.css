@@ -14,3 +14,7 @@
 .list-group-item .btn{
   padding: 0 12px;
 }
+
+.new-poll-container {
+  max-width: 500px;
+}

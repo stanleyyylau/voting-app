@@ -17,6 +17,8 @@ html(lang='en')
           ul.nav.navbar-nav
             li.active
               a(href='/') Home
+            li
+              a(href='/allpolls') See All Polls
           ul.nav.navbar-nav.navbar-right
             if currentUser
               li
@@ -61,11 +63,11 @@ html(lang='en')
         form
           .form-group
             label(for='pollName') Name Your Poll
-            input#pollName.form-control(type='email', placeholder='What is your favorite brand?')
+            input#pollName.form-control(type='text', placeholder='What is your favorite brand?')
           .form-group.options
             p Options
-            input.form-control(type='text', placeholder='Apple')
-            input.form-control(type='text', placeholder='Google')
+            input.form-control.options(type='text', placeholder='Apple')
+            input.form-control.options(type='text', placeholder='Google')
           .form-group
             button#J_moreOptions.btn.btn-default(type='submit') More Options
           .form-group
@@ -143,5 +145,5 @@ html(lang='en')
     script(src='../js/jquery-1.10.1.min.js')
     // Include all compiled plugins (below), or include individual files as needed
     script(src='../js/bootstrap.min.js')
-    if signup
-      script(src='/js/signup.js')
+    if currentUser
+      script(src='/js/newPoll.js')

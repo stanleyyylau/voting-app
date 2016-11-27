@@ -1,5 +1,5 @@
 //
-   Created by Stanley on 11/26/16.
+   Created by Stanley on 11/27/16.
 
 doctype html
 html(lang='en')
@@ -38,10 +38,22 @@ html(lang='en')
             .container.text-center
                 h1.app-title Voting Plus
                 p Create vote, Share link, Get result, Suvey has never been easier.
-                if errors
-                    p= errors
-                if infos
-                    p= infos
+                unless currentUser
+                    p
+                        a.btn.btn-primary.btn-lg(href='/signup', role='button') Sign Up
+                if currentUser
+                    p
+                        a.btn.btn-primary.btn-lg(href="/new", role='button') Net Poll
+                        a.btn.btn-primary.btn-lg(href="/all", role='button') My Polls
+
+        if allPolls
+            .container.new-poll-container
+                ul.list-group
+                    each val in polls
+                        li.list-group-item(data-id=`${val._id}`)
+                            a(href=`/poll/${val._id}`)= val.title
+                            a.btn.btn-warning.pull-right Delete
+
         if signup
             .container
                 form(action="/signup" method="post")
@@ -54,14 +66,40 @@ html(lang='en')
                     button.btn.btn-primary(type='submit') Sign me up !
         if login
             .container
-                form(action="/login" method="post")
+                form
                     .form-group
                         label(for='email') Email address
-                        input#email.form-control(type='email', placeholder='Email', name='email')
+                        input#email.form-control(type='email', placeholder='Email')
                     .form-group
                         label(for='exampleInputPassword1') Password
-                        input#password.form-control(type='password', placeholder='Password', name='password')
+                        input#password.form-control(type='password', placeholder='Password')
                     button.btn.btn-primary(type='submit') Login
+        if voteId
+            .container.text-center
+                .row
+                    .col-md-4
+                        h2 What is your favorite brand
+                        p By Stanley
+                    .col-md-4.text-left
+                        .radio.form-control
+                            label
+                                input#optionsRadios1(type='radio', name='optionsRadios', value='option1', checked='')
+                                |               Apple
+                        .radio.form-control
+                            label
+                                input#optionsRadios2(type='radio', name='optionsRadios', value='option2')
+                                |               Google
+                        a.btn.btn-primary(href='#') Vote
+                    .col-md-4
+                        p
+                            | Not satisfy with existing options?
+                        a.btn.btn-primary(href='#') Create your own
+        if showResult
+            .container.text-center
+                .row.text-center
+                    h2 show vote result here
+                    canvas#canvas(width='400', height='500')
+
 
         if login
             script.
@@ -70,5 +108,5 @@ html(lang='en')
         script(src='../js/jquery-1.10.1.min.js')
         // Include all compiled plugins (below), or include individual files as needed
         script(src='../js/bootstrap.min.js')
-        if signup
-            script(src='/js/signup.js')
+        if currentUser
+            script(src='/js/allPolls.js')

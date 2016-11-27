@@ -1,5 +1,5 @@
 //
-   Created by Stanley on 11/26/16.
+   Created by Stanley on 11/27/16.
 
 doctype html
 html(lang='en')
@@ -38,37 +38,41 @@ html(lang='en')
             .container.text-center
                 h1.app-title Voting Plus
                 p Create vote, Share link, Get result, Suvey has never been easier.
-                if errors
-                    p= errors
-                if infos
-                    p= infos
-        if signup
-            .container
-                form(action="/signup" method="post")
-                    .form-group
-                        label(for='email') Email address
-                        input#email.form-control(type='email', placeholder='Email', name='email')
-                    .form-group
-                        label(for='exampleInputPassword1') Password
-                        input#password.form-control(type='password', placeholder='Password', name='password')
-                    button.btn.btn-primary(type='submit') Sign me up !
-        if login
-            .container
-                form(action="/login" method="post")
-                    .form-group
-                        label(for='email') Email address
-                        input#email.form-control(type='email', placeholder='Email', name='email')
-                    .form-group
-                        label(for='exampleInputPassword1') Password
-                        input#password.form-control(type='password', placeholder='Password', name='password')
-                    button.btn.btn-primary(type='submit') Login
+                unless currentUser
+                    p
+                        a.btn.btn-primary.btn-lg(href='/signup', role='button') Sign Up
+                if currentUser
+                    p
+                        a.btn.btn-primary.btn-lg(href="/new", role='button') Net Poll
+                        a.btn.btn-primary.btn-lg(href="/all", role='button') My Polls
 
-        if login
-            script.
-                var a = "this is login page";
+        .container.text-center
+            .row
+                .col-md-4
+                    h2= voteTitle
+                    p By #{voteAuthor}
+                .col-md-4.text-left(data-vote-id=`${poll._id}`)
+                    each option in voteOptions
+                        .radio.form-control
+                            label
+                                input#optionsRadios1(type='radio', name='optionsRadios', value=option.option)
+                                |               #{option.option}
+                    a.btn.btn-primary(href='#') Vote
+                .col-md-4
+                    p
+                        | Not satisfy with existing options?
+                    a.btn.btn-primary(id="J_createOption") Create your own
+        if showResult
+            .container.text-center
+                .row.text-center
+                    h2 show vote result here
+                    canvas#canvas(width='400', height='500')
+
+
+        script.
+            var isLogIn = #{isLogIn};
         // jQuery (necessary for Bootstrap's JavaScript plugins)
         script(src='../js/jquery-1.10.1.min.js')
         // Include all compiled plugins (below), or include individual files as needed
         script(src='../js/bootstrap.min.js')
-        if signup
-            script(src='/js/signup.js')
+        script(src='../js/poll_detail.js')
