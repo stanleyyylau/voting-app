@@ -1,4 +1,4 @@
-require('./config/config');
+// require('./config/config');
 
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
