@@ -18,3 +18,7 @@
 .new-poll-container {
   max-width: 500px;
 }
+
+#myChart{
+  margin: 0 auto;
+}
