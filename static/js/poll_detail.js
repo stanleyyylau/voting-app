@@ -32,7 +32,6 @@ $(document).ready(function(req, res){
         }
     })
 
-    // todo: add J_vote to poll_detail.pug template
     $("#J_vote").on("click", function(e){
         if($('input:checked').length === 0){
             alert("pls select an option!!!");
@@ -51,8 +50,36 @@ $(document).ready(function(req, res){
                 },
                 success: function(data){
                     console.log(data);
-                    if (typeof data.redirect == 'string')
-                        window.location.replace(window.location.protocol + "//" + window.location.host + data.redirect);
+                    // to do : when vote id done, show the voting result with chart.js
+                    $(".vote-container").html('<canvas id="myChart" width="600" height="350"></canvas>')
+                    var ctx = document.getElementById("myChart");
+                    var labelArr = [];
+                    data.options.forEach(function(value, index){
+                        labelArr.push(value.option);
+                    })
+                    var voteData = [];
+                    data.options.forEach(function(value, index){
+                        voteData.push(value.votes);
+                    })
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labelArr,
+                            datasets: [{
+                                label: 'Number of Votes',
+                                data: voteData,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            title: {
+                                display: true,
+                                text: data.title
+                            }
+                        }
+                    });
+
                 }
             });
         }
